@@ -40,8 +40,8 @@ const (
 	// Keywords
 	FUNCTION = "FUNCTION"
 	LET      = "LET"
-	TRUE     = "TRUE"
-	FALSE    = "FALSE"
+	TRUE     = "true"
+	FALSE    = "false"
 	IF       = "IF"
 	ELSE     = "ELSE"
 	RETURN   = "RETURN"
