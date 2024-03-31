@@ -3,17 +3,17 @@ package evaluator
 import (
 	"Monkey/ast"
 	"Monkey/object"
-	"fmt"
 )
 
 func Eval(node ast.Node) object.Object {
-	fmt.Println(node.String())
 	switch node := node.(type) {
 	// Statements
 	case *ast.Program:
 		return evalStatements(node.Statements)
 	case *ast.ExpressionStatement:
 		return Eval(node.Expression)
+
+	// Expressions
 	case *ast.IntegerLiteral:
 		return &object.Integer{Value: node.Value}
 	}

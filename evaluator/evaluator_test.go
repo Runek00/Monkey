@@ -4,7 +4,6 @@ import (
 	"Monkey/lexer"
 	"Monkey/object"
 	"Monkey/parser"
-	"fmt"
 	"testing"
 )
 
@@ -26,7 +25,6 @@ func TestEvalIntegerExpression(t *testing.T) {
 func testEval(input string) object.Object {
 	l := lexer.New(input)
 	p := parser.New(l)
-	fmt.Println(input)
 	program := p.ParseProgram()
 
 	return Eval(program)
