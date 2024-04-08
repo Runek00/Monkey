@@ -22,6 +22,9 @@ func Eval(node ast.Node) object.Object {
 		return evalStatements(node.Statements)
 
 	// Expressions
+	case *ast.ReturnStatement:
+		val := Eval(node.ReturnValue)
+		return &object.ReturnValue{Value: val}
 	case *ast.PrefixExpression:
 		right := Eval(node.Right)
 		return evalPrefixExpression(node.Operator, right)
@@ -150,4 +153,17 @@ func isTruthy(obj object.Object) bool {
 	default:
 		return true
 	}
+}
+
+func evalStatements(stmts []ast.Statement) object.Object {
+	var result object.Object
+
+	for _, statement := range stmts {
+		result = Eval(statement)
+
+		if returnValue, ok := result.(*object.ReturnValue); ok {
+			return returnValue.Value
+		}
+	}
+	return result
 }
