@@ -190,7 +190,7 @@ func TestErrorHandling(t *testing.T) {
 		},
 		{
 			"5 + true; 5",
-			"type mismatch INTEGER + BOOLEAN",
+			"type mismatch: INTEGER + BOOLEAN",
 		},
 		{
 			"-true",

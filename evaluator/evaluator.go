@@ -47,14 +47,17 @@ func newError(format string, a ...interface{}) *object.Error {
 	return &object.Error{Message: fmt.Sprintf(format, a...)}
 }
 
-func evalProgram(program *ast.Program) object.Object{
+func evalProgram(program *ast.Program) object.Object {
 	var result object.Object
 
 	for _, statement := range program.Statements {
 		result = Eval(statement)
 
-		if returnValue, ok := result.(*object.ReturnValue); ok {
-			return returnValue.Value
+		switch result := result.(type) {
+		case *object.ReturnValue:
+			return result.Value
+		case *object.Error:
+			return result
 		}
 	}
 	return result
@@ -66,8 +69,11 @@ func EvalBlockStatement(block *ast.BlockStatement) object.Object {
 	for _, statement := range block.Statements {
 		result = Eval(statement)
 
-		if result != nil && result.Type() == object.RETURN_VALUE_OBJ {
-			return result
+		if result != nil {
+			rt := result.Type()
+			if rt == object.RETURN_VALUE_OBJ || rt == object.ERROR_OBJ {
+				return result
+			}
 		}
 	}
 	return result
@@ -135,9 +141,9 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 	case operator == "!=":
 		return nativeBooleanObject(left != right)
 	case left.Type() != right.Type():
-		return newError("unknown operator: %s %s %s", left.Type(), operator, right.Type())
+		return newError("type mismatch: %s %s %s", left.Type(), operator, right.Type())
 	default:
-		return newError("unknown operator: %s %s %s", left.Type(), operator, right.Type()) 
+		return newError("unknown operator: %s %s %s", left.Type(), operator, right.Type())
 	}
 
 }
@@ -191,4 +197,3 @@ func isTruthy(obj object.Object) bool {
 		return true
 	}
 }
-
