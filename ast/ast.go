@@ -182,8 +182,8 @@ func (b *Boolean) String() string {
 }
 
 type IfExpression struct {
-	Token token.Token
-	Condition Expression
+	Token       token.Token
+	Condition   Expression
 	Consequence *BlockStatement
 	Alternative *BlockStatement
 }
@@ -208,7 +208,7 @@ func (ie *IfExpression) String() string {
 }
 
 type BlockStatement struct {
-	Token token.Token
+	Token      token.Token
 	Statements []Statement
 }
 
@@ -227,9 +227,9 @@ func (bs *BlockStatement) String() string {
 }
 
 type FunctionLiteral struct {
-	Token token.Token
+	Token      token.Token
 	Parameters []*Identifier
-	Body *BlockStatement
+	Body       *BlockStatement
 }
 
 func (fl *FunctionLiteral) expressionNode() {}
@@ -240,7 +240,7 @@ func (fl *FunctionLiteral) String() string {
 	var out bytes.Buffer
 
 	params := []string{}
-	for _, p := range fl.Parameters{
+	for _, p := range fl.Parameters {
 		params = append(params, p.String())
 	}
 
@@ -254,8 +254,8 @@ func (fl *FunctionLiteral) String() string {
 }
 
 type CallExpression struct {
-	Token token.Token
-	Function Expression
+	Token     token.Token
+	Function  Expression
 	Arguments []Expression
 }
 
