@@ -27,6 +27,11 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 			return val
 		}
 		env.Set(node.Name.Value, val)
+	case *ast.FunctionLiteral:
+		params := node.Parameters
+	body := node.Body
+		return &object.Function{Parameters: params, Env: env, Body: body}
+
 
 	// Expressions
 	case *ast.Identifier:
